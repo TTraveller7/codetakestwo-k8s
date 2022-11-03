@@ -1,0 +1,49 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: user-psql
+  labels:
+    app: user-psql
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: user-psql
+  template:
+    metadata:
+      name: user-psql
+      labels:
+        app: user-psql
+    spec:
+      containers:
+        - name: user-psql
+          image: ttraveller7/peerprep-user-psql:1
+          env:
+            - name: POSTGRES_PASSWORD
+              value: "123"
+            - name: POSTGRES_DB
+              value: dev
+          volumeMounts:
+            - name: volume-user-psql
+              mountPath: /var/lib/postgresql/data
+      volumes:
+        - name: volume-user-psql
+          persistentVolumeClaim:
+            claimName: volume-user-psql
+
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: user-psql
+  labels: 
+    app: user-psql
+spec:
+  ports:
+    - port: 5432
+      targetPort: 5432
+  selector:
+    app: user-psql
+  type: ClusterIP

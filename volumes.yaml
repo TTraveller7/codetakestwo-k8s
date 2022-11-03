@@ -1,0 +1,235 @@
+# Claim - Kafka
+
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: volume-kafka
+spec:
+  accessModes: 
+    - ReadWriteOnce
+  storageClassName: volume-kafka
+  resources: 
+    requests:
+      storage: 1Gi
+
+---
+
+# Claim - Zookeeper
+
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: volume-zookeeper
+spec:
+  accessModes: 
+    - ReadWriteOnce
+  storageClassName: volume-zookeeper
+  resources: 
+    requests:
+      storage: 100Mi
+
+---
+
+# Claim - Blacklist Redis
+
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: volume-blacklist-redis
+spec:
+  accessModes: 
+    - ReadWriteOnce
+  storageClassName: volume-blacklist-redis
+  resources: 
+    requests:
+      storage: 100Mi
+
+---
+
+# Claim - User Redis
+
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: volume-user-redis
+spec:
+  accessModes: 
+    - ReadWriteOnce
+  storageClassName: volume-user-redis
+  resources: 
+    requests:
+      storage: 100Mi
+
+---
+
+# Claim - Match Redis
+
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: volume-match-redis
+spec:
+  accessModes: 
+    - ReadWriteOnce
+  storageClassName: volume-match-redis
+  resources: 
+    requests:
+      storage: 100Mi
+
+---
+
+# Claim - Question Redis
+
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: volume-question-redis
+spec:
+  accessModes: 
+    - ReadWriteOnce
+  storageClassName: volume-question-redis
+  resources: 
+    requests:
+      storage: 100Mi
+
+---
+
+# Claim - User Psql
+
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: volume-user-psql
+spec:
+  accessModes: 
+    - ReadWriteOnce
+  storageClassName: volume-user-psql
+  resources: 
+    requests:
+      storage: 1Gi
+
+---
+
+# PV - Kafka
+
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: volume-kafka
+spec:
+  storageClassName: volume-kafka
+  accessModes:
+    - ReadWriteOnce
+  capacity:
+    storage: 1Gi
+  hostPath:
+    path: /mnt/peerprep/kafka
+    type: DirectoryOrCreate
+
+---
+
+# PV - Zookeeper
+
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: volume-zookeeper
+spec:
+  storageClassName: volume-zookeeper
+  accessModes:
+    - ReadWriteOnce
+  capacity:
+    storage: 100Mi
+  hostPath:
+    path: /mnt/peerprep/zookeeper
+    type: DirectoryOrCreate
+
+---
+
+# PV - Blacklist Redis
+
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: volume-blacklist-redis
+spec:
+  storageClassName: volume-blacklist-redis
+  accessModes:
+    - ReadWriteOnce
+  capacity:
+    storage: 100Mi
+  hostPath:
+    path: /mnt/peerprep/blacklist-redis
+    type: DirectoryOrCreate
+
+---
+
+# PV - User Redis
+
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: volume-user-redis
+spec:
+  storageClassName: volume-user-redis
+  accessModes:
+    - ReadWriteOnce
+  capacity:
+    storage: 100Mi
+  hostPath:
+    path: /mnt/peerprep/user-redis
+    type: DirectoryOrCreate
+
+---
+
+# PV - Match Redis
+
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: volume-match-redis
+spec:
+  storageClassName: volume-match-redis
+  accessModes:
+    - ReadWriteOnce
+  capacity:
+    storage: 100Mi
+  hostPath:
+    path: /mnt/peerprep/match-redis
+    type: DirectoryOrCreate
+
+---
+
+# PV - Question Redis
+
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: volume-question-redis
+spec:
+  storageClassName: volume-question-redis
+  accessModes:
+    - ReadWriteOnce
+  capacity:
+    storage: 100Mi
+  hostPath:
+    path: /mnt/peerprep/question-redis
+    type: DirectoryOrCreate
+
+---
+
+# PV - User Psql
+
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: volume-user-psql
+spec:
+  storageClassName: volume-user-psql
+  accessModes:
+    - ReadWriteOnce
+  capacity:
+    storage: 1Gi
+  hostPath:
+    path: /mnt/peerprep/user-psql
+    type: DirectoryOrCreate

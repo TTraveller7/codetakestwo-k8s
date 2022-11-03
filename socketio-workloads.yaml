@@ -1,0 +1,50 @@
+# Matching
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: socketio-matching-service
+spec:
+  replicas: 1
+  
+  selector:
+    matchLabels:
+      app: socketio-matching-service
+  
+  template:
+    metadata:
+      name: socketio-matching-service
+      labels: 
+        app: socketio-matching-service
+    spec:
+      containers:
+        - name: socketio-matching-service
+          image: ttraveller7/peerprep-socketio-matching-service:dev
+          env: 
+            - name: URI_USER_SVC
+              value: http://matching-service:7001
+
+---
+
+# Chat
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: socketio-chat-service
+spec:
+  replicas: 1
+  
+  selector:
+    matchLabels:
+      app: socketio-chat-service
+  
+  template:
+    metadata:
+      name: socketio-chat-service
+      labels: 
+        app: socketio-chat-service
+    spec:
+      containers:
+        - name: socketio-chat-service
+          image: ttraveller7/peerprep-socketio-chat-service:dev

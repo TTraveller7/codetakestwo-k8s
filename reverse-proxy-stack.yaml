@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: reverse-proxy
+  labels:
+    app: reverse-proxy
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: reverse-proxy
+  template:
+    metadata:
+      name: reverse-proxy
+      labels:
+        app: reverse-proxy
+    spec:
+      containers:
+        - name: reverse-proxy
+          image: ttraveller7/peerprep-reverse-proxy:dev
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: reverse-proxy
+  labels: 
+    app: reverse-proxy
+spec:
+  ports:
+    - port: 80
+      nodePort: 30080
+  selector:
+    app: reverse-proxy
+  type: NodePort

@@ -1,0 +1,190 @@
+# Blacklist
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: blacklist-redis
+  labels:
+    app: blacklist-redis
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: blacklist-redis
+  template:
+    metadata:
+      name: blacklist-redis
+      labels:
+        app: blacklist-redis
+    spec:
+      containers:
+        - name: redis
+          image: redis:7.0.5-alpine
+          volumeMounts:
+            - name: volume-blacklist-redis
+              mountPath: /data
+      volumes:
+        - name: volume-blacklist-redis
+          persistentVolumeClaim:
+            claimName: volume-blacklist-redis
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: blacklist-redis
+  labels:
+    app: blacklist-redis
+spec:
+  ports:
+    - port: 6379
+      targetPort: 6379
+  selector: 
+    app: blacklist-redis
+  type: ClusterIP
+
+---
+
+# User
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: user-redis
+  labels:
+    app: user-redis
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: user-redis
+  template:
+    metadata:
+      name: user-redis
+      labels:
+        app: user-redis
+    spec:
+      containers:
+        - name: redis
+          image: redis:7.0.5-alpine
+          volumeMounts:
+            - name: volume-user-redis
+              mountPath: /data
+      volumes:
+        - name: volume-user-redis
+          persistentVolumeClaim:
+            claimName: volume-user-redis
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: user-redis
+  labels:
+    app: user-redis
+spec:
+  ports:
+    - port: 6379
+      targetPort: 6379
+  selector: 
+    app: user-redis
+  type: ClusterIP
+
+---
+
+# Match
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: match-redis
+  labels:
+    app: match-redis
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: match-redis
+  template:
+    metadata:
+      name: match-redis
+      labels:
+        app: match-redis
+    spec:
+      containers:
+        - name: redis
+          image: redis:7.0.5-alpine
+          volumeMounts:
+            - name: volume-match-redis
+              mountPath: /data
+      volumes:
+        - name: volume-match-redis
+          persistentVolumeClaim:
+            claimName: volume-match-redis
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: match-redis
+  labels:
+    app: match-redis
+spec:
+  ports:
+    - port: 6379
+      targetPort: 6379
+  selector: 
+    app: match-redis
+  type: ClusterIP
+
+---
+
+# Question
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: question-redis
+  labels:
+    app: question-redis
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: question-redis
+  template:
+    metadata:
+      name: question-redis
+      labels:
+        app: question-redis
+    spec:
+      containers:
+        - name: redis
+          image: redis:7.0.5-alpine
+          volumeMounts:
+            - name: volume-question-redis
+              mountPath: /data
+      volumes:
+        - name: volume-question-redis
+          persistentVolumeClaim:
+            claimName: volume-question-redis
+
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: question-redis
+  labels:
+    app: question-redis
+spec:
+  ports:
+    - port: 6379
+      targetPort: 6379
+  selector: 
+    app: question-redis
+  type: ClusterIP

@@ -1,0 +1,157 @@
+# User
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: user-service
+spec:
+  replicas: 1
+  
+  selector:
+    matchLabels:
+      app: user-service
+  
+  template:
+    metadata:
+      name: user-service
+      labels: 
+        app: user-service
+    spec:
+      containers:
+        - name: user-service
+          image: ttraveller7/peerprep-user-service:dev
+          env:
+            - name: POSTGRES_URL
+              value: postgres://postgres:123@user-psql:5432/dev
+            - name: REDIS_URL 
+              value: blacklist-redis:6379
+
+---
+
+# Auth
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: auth-service
+spec:
+  replicas: 1
+  
+  selector:
+    matchLabels:
+      app: auth-service
+  
+  template:
+    metadata:
+      name: auth-service
+      labels: 
+        app: auth-service
+    spec:
+      containers:
+        - name: auth-service
+          image: ttraveller7/peerprep-auth-service:dev
+          env:
+            - name: POSTGRES_URL
+              value: postgres://postgres:123@user-psql:5432/dev
+            - name: REDIS_URL 
+              value: blacklist-redis:6379
+
+---
+
+# Auth
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: question-service
+spec:
+  replicas: 1
+  
+  selector:
+    matchLabels:
+      app: question-service
+  
+  template:
+    metadata:
+      name: question-service
+      labels: 
+        app: question-service
+    spec:
+      containers:
+        - name: question-service
+          image: ttraveller7/peerprep-question-service:dev
+          env:
+            - name: POSTGRES_URL
+              value: postgres://postgres:123@user-psql:5432/dev
+            - name: QUESTION_CACHE_URL
+              value: question-redis:6379
+            - name: MATCH_CACHE_URL
+              value: match-redis:6379
+
+---
+
+# Matching
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: matching-service
+spec:
+  replicas: 1
+  
+  selector:
+    matchLabels:
+      app: matching-service
+  
+  template:
+    metadata:
+      name: matching-service
+      labels: 
+        app: matching-service
+    spec:
+      containers:
+        - name: matching-service
+          image: ttraveller7/peerprep-matching-service:dev
+          env:
+            - name: POSTGRES_URL
+              value: postgres://postgres:123@user-psql:5432/dev
+            - name: USER_REDIS_URL
+              value: user-redis:6379
+            - name: MATCH_REDIS_URL
+              value: match-redis:6379
+            - name: KAFKA_URL
+              value: kafka:29092
+
+---
+
+# Reader-Routine
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: reader-routine
+spec:
+  replicas: 1
+  
+  selector:
+    matchLabels:
+      app: reader-routine
+  
+  template:
+    metadata:
+      name: reader-routine
+      labels: 
+        app: reader-routine
+    spec:
+      containers:
+        - name: reader-routine
+          image: ttraveller7/peerprep-reader-routine:dev
+          env:
+            - name: USER_REDIS_URL
+              value: user-redis:6379
+            - name: MATCH_REDIS_URL
+              value: match-redis:6379
+            - name: KAFKA_URL
+              value: kafka:29092
+            - name: POSTGRES_URL
+              value: postgres://postgres:123@user-psql:5432/dev

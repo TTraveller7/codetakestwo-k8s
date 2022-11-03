@@ -1,0 +1,27 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: socketio-matching-service
+spec:
+  ports:
+    - port: 5200
+
+  selector:
+    app: socketio-matching-service
+
+  type: NodePort
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: socketio-chat-service
+spec:
+  ports:
+    - port: 5300
+
+  selector:
+    app: socketio-chat-service
+
+  type: NodePort
