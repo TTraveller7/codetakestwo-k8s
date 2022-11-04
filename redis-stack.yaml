@@ -188,3 +188,50 @@ spec:
   selector: 
     app: question-redis
   type: ClusterIP
+
+---
+# Message
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: message-redis
+  labels:
+    app: message-redis
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: message-redis
+  template:
+    metadata:
+      name: message-redis
+      labels:
+        app: message-redis
+    spec:
+      containers:
+        - name: redis
+          image: redislabs/redisearch:latest
+          volumeMounts:
+            - name: volume-message-redis
+              mountPath: /data
+      volumes:
+        - name: volume-message-redis
+          persistentVolumeClaim:
+            claimName: volume-message-redis
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: message-redis
+  labels:
+    app: message-redis
+spec:
+  ports:
+    - port: 6379
+      targetPort: 6379
+  selector: 
+    app: message-redis
+  type: ClusterIP

@@ -21,7 +21,7 @@ spec:
         - name: socketio-matching-service
           image: ttraveller7/peerprep-socketio-matching-service:dev
           env: 
-            - name: URI_USER_SVC
+            - name: URI_MATCH_SVC
               value: http://matching-service:7001
 
 ---
@@ -48,3 +48,6 @@ spec:
       containers:
         - name: socketio-chat-service
           image: ttraveller7/peerprep-socketio-chat-service:dev
+          env:
+            - name: CHAT_REDIS_URL
+              value: redis://message-redis:6379

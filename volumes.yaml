@@ -110,6 +110,22 @@ spec:
 
 ---
 
+# Claim - Message
+
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: volume-message-redis
+spec:
+  accessModes: 
+    - ReadWriteOnce
+  storageClassName: volume-message-redis
+  resources: 
+    requests:
+      storage: 1Gi
+
+---
+
 # PV - Kafka
 
 apiVersion: v1
@@ -232,4 +248,22 @@ spec:
     storage: 1Gi
   hostPath:
     path: /mnt/peerprep/user-psql
+    type: DirectoryOrCreate
+
+---
+
+# PV - Message
+
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: volume-message-redis
+spec:
+  storageClassName: volume-message-redis
+  accessModes:
+    - ReadWriteOnce
+  capacity:
+    storage: 1Gi
+  hostPath:
+    path: /mnt/peerprep/message-redis
     type: DirectoryOrCreate
