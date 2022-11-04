@@ -9,7 +9,7 @@ spec:
   selector:
     app: socketio-matching-service
 
-  type: NodePort
+  type: ClusterIP
 
 ---
 
@@ -24,4 +24,19 @@ spec:
   selector:
     app: socketio-chat-service
 
-  type: NodePort
+  type: ClusterIP
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: socketio-collab-service
+spec:
+  ports:
+    - port: 5400
+
+  selector:
+    app: socketio-collab-service
+
+  type: ClusterIP

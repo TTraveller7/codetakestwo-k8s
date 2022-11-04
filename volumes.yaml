@@ -122,7 +122,23 @@ spec:
   storageClassName: volume-message-redis
   resources: 
     requests:
-      storage: 1Gi
+      storage: 100Mi
+
+---
+
+# Claim - Document
+
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: volume-document-redis
+spec:
+  accessModes: 
+    - ReadWriteOnce
+  storageClassName: volume-document-redis
+  resources: 
+    requests:
+      storage: 100Mi
 
 ---
 
@@ -263,7 +279,25 @@ spec:
   accessModes:
     - ReadWriteOnce
   capacity:
-    storage: 1Gi
+    storage: 100Mi
   hostPath:
     path: /mnt/peerprep/message-redis
+    type: DirectoryOrCreate
+
+---
+
+# PV - Document
+
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: volume-document-redis
+spec:
+  storageClassName: volume-document-redis
+  accessModes:
+    - ReadWriteOnce
+  capacity:
+    storage: 100Mi
+  hostPath:
+    path: /mnt/peerprep/document-redis
     type: DirectoryOrCreate

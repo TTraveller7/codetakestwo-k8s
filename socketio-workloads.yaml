@@ -51,3 +51,31 @@ spec:
           env:
             - name: CHAT_REDIS_URL
               value: redis://message-redis:6379
+
+---
+
+# Collab
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: socketio-collab-service
+spec:
+  replicas: 1
+  
+  selector:
+    matchLabels:
+      app: socketio-collab-service
+  
+  template:
+    metadata:
+      name: socketio-collab-service
+      labels: 
+        app: socketio-collab-service
+    spec:
+      containers:
+        - name: socketio-collab-service
+          image: ttraveller7/peerprep-socketio-collab-service:dev
+          env:
+            - name: COLLAB_REDIS_URL
+              value: redis://document-redis:6379
