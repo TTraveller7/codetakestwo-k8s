@@ -58,7 +58,7 @@ spec:
 
 ---
 
-# Auth
+# Question
 
 apiVersion: apps/v1
 kind: Deployment
@@ -112,6 +112,7 @@ spec:
       containers:
         - name: matching-service
           image: ttraveller7/peerprep-matching-service:dev
+          imagePullPolicy: Always
           env:
             - name: POSTGRES_URL
               value: postgres://postgres:123@user-psql:5432/dev

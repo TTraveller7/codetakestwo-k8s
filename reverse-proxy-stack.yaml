@@ -18,6 +18,7 @@ spec:
       containers:
         - name: reverse-proxy
           image: ttraveller7/peerprep-reverse-proxy:dev
+          imagePullPolicy: Always
 
 ---
 
