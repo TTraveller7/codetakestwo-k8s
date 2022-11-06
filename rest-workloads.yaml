@@ -20,11 +20,9 @@ spec:
       containers:
         - name: user-service
           image: ttraveller7/peerprep-user-service:dev
-          env:
-            - name: POSTGRES_URL
-              value: postgres://postgres:123@user-psql:5432/dev
-            - name: REDIS_URL 
-              value: blacklist-redis:6379
+          envFrom: 
+          - configMapRef: 
+              name: global-config
 
 ---
 
@@ -50,11 +48,9 @@ spec:
       containers:
         - name: auth-service
           image: ttraveller7/peerprep-auth-service:dev
-          env:
-            - name: POSTGRES_URL
-              value: postgres://postgres:123@user-psql:5432/dev
-            - name: REDIS_URL 
-              value: blacklist-redis:6379
+          envFrom: 
+          - configMapRef: 
+              name: global-config
 
 ---
 
@@ -80,13 +76,9 @@ spec:
       containers:
         - name: question-service
           image: ttraveller7/peerprep-question-service:dev
-          env:
-            - name: POSTGRES_URL
-              value: postgres://postgres:123@user-psql:5432/dev
-            - name: QUESTION_CACHE_URL
-              value: question-redis:6379
-            - name: MATCH_CACHE_URL
-              value: match-redis:6379
+          envFrom: 
+          - configMapRef: 
+              name: global-config
 
 ---
 
@@ -113,15 +105,9 @@ spec:
         - name: matching-service
           image: ttraveller7/peerprep-matching-service:dev
           imagePullPolicy: Always
-          env:
-            - name: POSTGRES_URL
-              value: postgres://postgres:123@user-psql:5432/dev
-            - name: USER_REDIS_URL
-              value: user-redis:6379
-            - name: MATCH_REDIS_URL
-              value: match-redis:6379
-            - name: KAFKA_URL
-              value: kafka:29092
+          envFrom: 
+          - configMapRef: 
+              name: global-config
 
 ---
 
@@ -147,12 +133,6 @@ spec:
       containers:
         - name: reader-routine
           image: ttraveller7/peerprep-reader-routine:dev
-          env:
-            - name: USER_REDIS_URL
-              value: user-redis:6379
-            - name: MATCH_REDIS_URL
-              value: match-redis:6379
-            - name: KAFKA_URL
-              value: kafka:29092
-            - name: POSTGRES_URL
-              value: postgres://postgres:123@user-psql:5432/dev
+          envFrom: 
+          - configMapRef: 
+              name: global-config

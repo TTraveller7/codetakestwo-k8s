@@ -20,10 +20,9 @@ spec:
       containers:
         - name: socketio-matching-service
           image: ttraveller7/peerprep-socketio-matching-service:dev
-          env: 
-            - name: URI_MATCH_SVC
-              value: http://matching-service:7001
-
+          envFrom: 
+          - configMapRef: 
+              name: global-config
 ---
 
 # Chat
@@ -48,9 +47,9 @@ spec:
       containers:
         - name: socketio-chat-service
           image: ttraveller7/peerprep-socketio-chat-service:dev
-          env:
-            - name: CHAT_REDIS_URL
-              value: redis://message-redis:6379
+          envFrom: 
+          - configMapRef: 
+              name: global-config
 
 ---
 
@@ -76,6 +75,6 @@ spec:
       containers:
         - name: socketio-collab-service
           image: ttraveller7/peerprep-socketio-collab-service:dev
-          env:
-            - name: COLLAB_REDIS_URL
-              value: redis://document-redis:6379
+          envFrom: 
+          - configMapRef: 
+              name: global-config

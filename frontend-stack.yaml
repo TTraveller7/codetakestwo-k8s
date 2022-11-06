@@ -19,11 +19,9 @@ spec:
         - name: frontend
           image: ttraveller7/peerprep-frontend:dev
           imagePullPolicy: Always
-          env: 
-            - name: CHOKIDAR_USEPOLLING
-              value: "true"
-            - name: REACT_APP_BACKEND_URL
-              value: http://192.168.59.105:30080
+          envFrom: 
+          - configMapRef: 
+              name: global-config
 
 ---
 
