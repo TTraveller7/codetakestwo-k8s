@@ -7,10 +7,10 @@ metadata:
 spec:
   accessModes: 
     - ReadWriteOnce
-  storageClassName: volume-kafka
+  storageClassName: slow
   resources: 
     requests:
-      storage: 1Gi
+      storage: 10Gi
 
 ---
 
@@ -23,10 +23,10 @@ metadata:
 spec:
   accessModes: 
     - ReadWriteOnce
-  storageClassName: volume-zookeeper
+  storageClassName: standard
   resources: 
     requests:
-      storage: 100Mi
+      storage: 1Gi
 
 ---
 
@@ -39,10 +39,10 @@ metadata:
 spec:
   accessModes: 
     - ReadWriteOnce
-  storageClassName: volume-blacklist-redis
+  storageClassName: standard
   resources: 
     requests:
-      storage: 100Mi
+      storage: 1Gi
 
 ---
 
@@ -55,10 +55,10 @@ metadata:
 spec:
   accessModes: 
     - ReadWriteOnce
-  storageClassName: volume-user-redis
+  storageClassName: standard
   resources: 
     requests:
-      storage: 100Mi
+      storage: 1Gi
 
 ---
 
@@ -71,10 +71,10 @@ metadata:
 spec:
   accessModes: 
     - ReadWriteOnce
-  storageClassName: volume-match-redis
+  storageClassName: standard
   resources: 
     requests:
-      storage: 100Mi
+      storage: 1Gi
 
 ---
 
@@ -87,10 +87,10 @@ metadata:
 spec:
   accessModes: 
     - ReadWriteOnce
-  storageClassName: volume-question-redis
+  storageClassName: standard
   resources: 
     requests:
-      storage: 100Mi
+      storage: 1Gi
 
 ---
 
@@ -103,10 +103,10 @@ metadata:
 spec:
   accessModes: 
     - ReadWriteOnce
-  storageClassName: volume-user-psql
+  storageClassName: standard
   resources: 
     requests:
-      storage: 1Gi
+      storage: 10Gi
 
 ---
 
@@ -119,10 +119,10 @@ metadata:
 spec:
   accessModes: 
     - ReadWriteOnce
-  storageClassName: volume-message-redis
+  storageClassName: standard
   resources: 
     requests:
-      storage: 100Mi
+      storage: 1Gi
 
 ---
 
@@ -135,169 +135,31 @@ metadata:
 spec:
   accessModes: 
     - ReadWriteOnce
-  storageClassName: volume-document-redis
+  storageClassName: standard
   resources: 
     requests:
-      storage: 100Mi
+      storage: 1Gi
 
 ---
 
-# PV - Kafka
+# Storage class - standard
 
-apiVersion: v1
-kind: PersistentVolume
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
 metadata:
-  name: volume-kafka
-spec:
-  storageClassName: volume-kafka
-  accessModes:
-    - ReadWriteOnce
-  capacity:
-    storage: 1Gi
-  hostPath:
-    path: /mnt/peerprep/kafka
-    type: DirectoryOrCreate
+  name: standard
+provisioner: kubernetes.io/aws-ebs
+parameters:
+  type: gp2
 
----
+--- 
 
-# PV - Zookeeper
+# Storage class - slow
 
-apiVersion: v1
-kind: PersistentVolume
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
 metadata:
-  name: volume-zookeeper
-spec:
-  storageClassName: volume-zookeeper
-  accessModes:
-    - ReadWriteOnce
-  capacity:
-    storage: 100Mi
-  hostPath:
-    path: /mnt/peerprep/zookeeper
-    type: DirectoryOrCreate
-
----
-
-# PV - Blacklist Redis
-
-apiVersion: v1
-kind: PersistentVolume
-metadata:
-  name: volume-blacklist-redis
-spec:
-  storageClassName: volume-blacklist-redis
-  accessModes:
-    - ReadWriteOnce
-  capacity:
-    storage: 100Mi
-  hostPath:
-    path: /mnt/peerprep/blacklist-redis
-    type: DirectoryOrCreate
-
----
-
-# PV - User Redis
-
-apiVersion: v1
-kind: PersistentVolume
-metadata:
-  name: volume-user-redis
-spec:
-  storageClassName: volume-user-redis
-  accessModes:
-    - ReadWriteOnce
-  capacity:
-    storage: 100Mi
-  hostPath:
-    path: /mnt/peerprep/user-redis
-    type: DirectoryOrCreate
-
----
-
-# PV - Match Redis
-
-apiVersion: v1
-kind: PersistentVolume
-metadata:
-  name: volume-match-redis
-spec:
-  storageClassName: volume-match-redis
-  accessModes:
-    - ReadWriteOnce
-  capacity:
-    storage: 100Mi
-  hostPath:
-    path: /mnt/peerprep/match-redis
-    type: DirectoryOrCreate
-
----
-
-# PV - Question Redis
-
-apiVersion: v1
-kind: PersistentVolume
-metadata:
-  name: volume-question-redis
-spec:
-  storageClassName: volume-question-redis
-  accessModes:
-    - ReadWriteOnce
-  capacity:
-    storage: 100Mi
-  hostPath:
-    path: /mnt/peerprep/question-redis
-    type: DirectoryOrCreate
-
----
-
-# PV - User Psql
-
-apiVersion: v1
-kind: PersistentVolume
-metadata:
-  name: volume-user-psql
-spec:
-  storageClassName: volume-user-psql
-  accessModes:
-    - ReadWriteOnce
-  capacity:
-    storage: 1Gi
-  hostPath:
-    path: /mnt/peerprep/user-psql
-    type: DirectoryOrCreate
-
----
-
-# PV - Message
-
-apiVersion: v1
-kind: PersistentVolume
-metadata:
-  name: volume-message-redis
-spec:
-  storageClassName: volume-message-redis
-  accessModes:
-    - ReadWriteOnce
-  capacity:
-    storage: 100Mi
-  hostPath:
-    path: /mnt/peerprep/message-redis
-    type: DirectoryOrCreate
-
----
-
-# PV - Document
-
-apiVersion: v1
-kind: PersistentVolume
-metadata:
-  name: volume-document-redis
-spec:
-  storageClassName: volume-document-redis
-  accessModes:
-    - ReadWriteOnce
-  capacity:
-    storage: 100Mi
-  hostPath:
-    path: /mnt/peerprep/document-redis
-    type: DirectoryOrCreate
+  name: slow
+provisioner: kubernetes.io/aws-ebs
+parameters:
+  type: st1

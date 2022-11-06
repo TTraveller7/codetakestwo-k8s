@@ -31,8 +31,7 @@ metadata:
   name: frontend
 spec:
   ports:
-    - port: 3000
-      nodePort: 30030
+    - port: 80
   selector:
     app: frontend
-  type: NodePort
+  type: LoadBalancer
